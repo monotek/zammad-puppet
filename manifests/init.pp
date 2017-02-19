@@ -1,0 +1,4 @@
+# Class: zammad
+class zammad (
+
+}
