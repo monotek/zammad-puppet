@@ -36,14 +36,17 @@ class zammad::install {
 
   service {
     $service_database:
-      ensure  => running;
+      ensure  => running,
+      require => Package[ $package_database ];
     $service_elasticsearch:
       ensure  => running;
+      require => Package[ $package_elasticsearch ];
     $service_webserver:
       ensure  => running;
+      require => Package[ $package_webserver ];
     $service_zammad:
       ensure  => running,
-      require => Service[ $service_database, $service_elasticsearch, $service_webserver ];
+      require => [ Package[ $package_zammad ], Service[ $service_database, $service_elasticsearch, $service_webserver ] ];
   }
 
 }
