@@ -5,7 +5,7 @@
   "summary": "Module to manage Zammad installation",
   "license": "A-GPL 3.0",
   "source": "https://github.com/monotek/zammad-puppet.git",
-  "project_page": "https://github.com/monotek/zammad-puppet",
+  "project_page": "https://zammad.org",
   "issues_url": "https://github.com/monotek/zammad-puppet/issues",
   "tags": ["zammad"],
   "operatingsystem_support": [
@@ -43,4 +43,3 @@
   "dependencies": [
   ]
 }
-
