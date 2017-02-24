@@ -21,7 +21,7 @@ class zammad::params (
         $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
-        $webserver_config = '/etc/httpd/conf.d/zammad.conf',
+        $webserver_config   = '/etc/httpd/conf.d/zammad.conf',
         $webserver_template = 'apache2.conf.erb',
       }
     }
@@ -39,7 +39,7 @@ class zammad::params (
         $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
-        $webserver_config = '/etc/apache2/sites-enabled/zammad.conf',
+        $webserver_config   = '/etc/apache2/sites-enabled/zammad.conf',
         $webserver_template = 'apache2.conf.erb',
       }
     }
@@ -57,7 +57,7 @@ class zammad::params (
         $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
-        $webserver_config = '/etc/apache2/vhosts.d/zammad.conf',
+        $webserver_config   = '/etc/apache2/vhosts.d/zammad.conf',
         $webserver_template = 'apache2.conf.erb',
       }
     }
