@@ -3,12 +3,19 @@ class zammad::install {
 
   file {
     $repo_file:
-        ensure  => file,
-        path    => $repo_file,
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        content => template('zammad/repo.erb');
+      ensure  => file,
+      path    => $repo_file,
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      content => template('zammad/repo.erb');
+    $webserver_config:
+      ensure  => file,
+      path    => $webserver_config,
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      content => template('zammad/nginx.erb');
   }
 
   exec {
@@ -17,6 +24,11 @@ class zammad::install {
       require     => File[ $repo_file ],
       refreshonly => true,
       command     => $repo_key_command;
+    'es-plugin-install'
+      path        => '/usr/bin/:/bin/:sbin/',
+      require     => Package[ $package_elasticsearch ],
+      creates     => '/usr/share/elasticsearch/plugins/mapper-attachments',
+      command     => $es_plugin_install_command;
   }
 
   package {
@@ -38,10 +50,10 @@ class zammad::install {
       require => Package[ $package_database ];
     $service_elasticsearch:
       ensure  => running;
-      require => [ Exec[es-install-plugin], Package[ $package_elasticsearch ] ];
+      require => Exec['es-plugin-install'];
     $service_webserver:
       ensure  => running;
-      require => Package[ $package_webserver ];
+      require => [ Package[ $package_webserver ], File[$webserver_config] ];
     $service_zammad:
       ensure  => running,
       require => [ Package[ $package_zammad ], Service[ $service_database, $service_elasticsearch, $service_webserver ] ];

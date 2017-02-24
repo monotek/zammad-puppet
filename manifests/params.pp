@@ -5,7 +5,7 @@ class zammad::params (
   $service_ensure            = 'running',
   $service_zammad            = 'zammad',
   $zammad_domain             = 'localhost',
-  $es_plugin_install_command = '',
+  $es_plugin_install_command = '/usr/share/elasticsearch/bin/elasticsearch-plugin install mapper-attachments',
   case $::operatingsystem {
     /^(CentOS|RedHat)$/: {
       $repo_key_command      = 'rpm --import https://rpm.packager.io/key'
