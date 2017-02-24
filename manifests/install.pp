@@ -11,6 +11,7 @@ class zammad::install {
       content => template('zammad/repo.erb');
     $::webserver_config:
       ensure  => file,
+      require => Package[ $::package_webserver ],
       path    => $::webserver_config,
       mode    => '0644',
       owner   => 'root',
@@ -53,7 +54,7 @@ class zammad::install {
       require => Exec['es-plugin-install'];
     $::service_webserver:
       ensure  => running;
-      require => [ Package[ $::package_webserver ], File[ $::webserver_config ] ];
+      require => File[ $::webserver_config ];
     $::service_zammad:
       ensure  => running,
       require => [ Package[ $::package_zammad ], Service[ $::service_database, $::service_elasticsearch, $::service_webserver ] ];
