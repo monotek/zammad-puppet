@@ -8,6 +8,7 @@ class zammad::install {
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
+      notify  => Exec['repo-key-install']
       content => template('zammad/repo.erb');
     $::webserver_config:
       ensure  => file,
@@ -22,7 +23,6 @@ class zammad::install {
   exec {
     'repo-key-install':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => File[ $::repo_file ],
       refreshonly => true,
       command     => $::repo_key_command;
     'es-plugin-install':
