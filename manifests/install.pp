@@ -38,7 +38,7 @@ class zammad::install {
       require => Package[ $package_database ];
     $service_elasticsearch:
       ensure  => running;
-      require => Package[ $package_elasticsearch ];
+      require => [ Exec[es-install-plugin], Package[ $package_elasticsearch ] ];
     $service_webserver:
       ensure  => running;
       require => Package[ $package_webserver ];
