@@ -17,10 +17,12 @@ class zammad::params (
       $service_webserver     = 'nginx',
       $service_elasticsearch = 'elasticsearch',
       if $package_webserver == 'nginx' {
-        $webserver_config = '/etc/nginx/conf.d/zammad.conf',
+        $webserver_config   = '/etc/nginx/conf.d/zammad.conf',
+        $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
         $webserver_config = '/etc/httpd/conf.d/zammad.conf',
+        $webserver_template = 'apache2.conf.erb',
       }
     }
     /^(Debian|Ubuntu)$/: {
@@ -33,10 +35,12 @@ class zammad::params (
       $service_webserver     = 'nginx',
       $service_elasticsearch = 'elasticsearch';
       if $package_webserver == 'nginx' {
-        $webserver_config = '/etc/nginx/sites-enabled/zammad.conf',
+        $webserver_config   = '/etc/nginx/sites-enabled/zammad.conf',
+        $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
         $webserver_config = '/etc/apache2/sites-enabled/zammad.conf',
+        $webserver_template = 'apache2.conf.erb',
       }
     }
     /^(SLES|SUSE)$/: {
@@ -49,10 +53,12 @@ class zammad::params (
       $service_webserver     = 'nginx',
       $service_elasticsearch = 'elasticsearch';
       if $package_webserver == 'nginx' {
-        $webserver_config = '/etc/nginx/vhosts.d/zammad.conf',
+        $webserver_config   = '/etc/nginx/vhosts.d/zammad.conf',
+        $webserver_template = 'nginx.conf.erb',
       }
       elsif $package_webserver == 'apache2' {
         $webserver_config = '/etc/apache2/vhosts.d/zammad.conf',
+        $webserver_template = 'apache2.conf.erb',
       }
     }
     default: {

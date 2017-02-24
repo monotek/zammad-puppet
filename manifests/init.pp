@@ -12,6 +12,7 @@ class zammad (
   $service_database          = $::zammad::params::service_database,
   $service_webserver         = $::zammad::params::service_webserver,
   $service_zammad            = $::zammad::params::service_zammad,
+  $webserver_template        = $::zammad::params::webserver_template,
   $es_plugin_install_command = $::zammad::params::es_plugin_install_command,
 ) inhertis zammad::params {
 

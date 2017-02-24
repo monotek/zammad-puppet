@@ -16,7 +16,7 @@ class zammad::install {
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
-      content => template('zammad/nginx.erb');
+      content => template("zammad/${::webserver_template}");
   }
 
   exec {
