@@ -28,9 +28,7 @@ class zammad::install {
       ensure  => installed;
     'zammad':
       ensure  => $package_ensure,
-      require => [
-        Exec['repo-key-install'],
-        Package[ $package_database, $package_webserver, $package_elasticsearch ]
+      require => [ Exec['repo-key-install'], Package[ $package_database, $package_webserver, $package_elasticsearch ]
       ];
   }
 
