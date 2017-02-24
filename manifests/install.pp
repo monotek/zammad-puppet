@@ -21,11 +21,11 @@ class zammad::install {
 
   package {
     $package_database:
-      ensure  => installed;
+      ensure  => $package_ensure;
     $package_webserver:
-      ensure  => installed;
+      ensure  => $package_ensure;
     $package_elasticsearch:
-      ensure  => installed;
+      ensure  => $package_ensure;
     'zammad':
       ensure  => $package_ensure,
       require => [ Exec['repo-key-install'], Package[ $package_database, $package_webserver, $package_elasticsearch ]
