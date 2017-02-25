@@ -50,7 +50,7 @@ class zammad::install {
       ensure  => $::zammad::params::package_ensure;
     $::zammad::params::package_elasticsearch:
       ensure  => $::zammad::params::package_ensure;
-    $::zammad::params::package_zammad::
+    $::zammad::params::package_zammad:
       ensure  => $::zammad::params::package_ensure,
       notify  => Exec[ 'es-config-command' ],
       require => [ Exec[ 'repo-key-install' ],Package[ $::zammad::params::service_database,
