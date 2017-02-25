@@ -68,7 +68,7 @@ class zammad::install {
       require => File[ $::zammad::params::webserver_config ];
     $::zammad::params::service_zammad:
       ensure  => running,
-      require => [ Package[ $::zammad::params::package_zammad ], Service[ $::zammad::params::service_database, $::zammad::params::service_elasticsearch, $::zammad::params::service_webserver ] ];
+      require => [ Package[ $::zammad::params::package_zammad ], Package[ $::zammad::params::package_database, $::zammad::params::package_elasticsearch, $::zammad::params::package_webserver ] ];
   }
 
 }
