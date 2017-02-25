@@ -37,7 +37,7 @@ class zammad::install {
       require => Service[ $::service_zammad ],
       notify  => Exec[ 'es_index_create_command' ],
       command => $::es_config_command;
-    'es_index_create_command'
+    'es-index-create-command'
       path        => '/usr/bin/:/bin/:sbin/',
       require     => Exec[ 'es-config-command' ],
       refreshonly => true,
