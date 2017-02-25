@@ -29,7 +29,7 @@ class zammad::install {
     'es-config-command':
       path    => '/usr/bin/:/bin/:sbin/',
       require => Service[ $::zammad::params::service_zammad ],
-      notify  => Exec[ 'es_index_create_command' ],
+      notify  => Exec[ 'es-index-create-command' ],
       command => $::zammad::params::es_config_command;
     'es-index-create-command':
       path        => '/usr/bin/:/bin/:sbin/',
