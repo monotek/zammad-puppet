@@ -3,15 +3,15 @@
 <% if @operatingsystem =~ /^(CentOS|RedHat)$/ %>
 [zammad]
 name=Repository for zammad/zammad application.
-baseurl=https://rpm.packager.io/gh/zammad/zammad/centos7/<%= @zammad_branch %>
+baseurl=https://rpm.packager.io/gh/zammad/zammad/centos7/<%= scope['zammad::params::zammad_branch'] %>
 enabled=1
 <% elsif @operatingsystem =~ /^Debian$/ %>
-deb https://deb.packager.io/gh/zammad/zammad jessie <%= @zammad_branch %>
+deb https://deb.packager.io/gh/zammad/zammad jessie <%= scope['zammad::params::zammad_branch'] %>
 <% elsif @operatingsystem =~ /^(SLES|SUSE)$/ %>
 [zammad]
 name=Repository for zammad/zammad application.
-baseurl=https://rpm.packager.io/gh/zammad/zammad/sles12/<%= @zammad_branch %>
+baseurl=https://rpm.packager.io/gh/zammad/zammad/sles12/<%= scope['zammad::params::zammad_branch'] %>
 enabled=1
 <% elsif @operatingsystem =~ /^Ubuntu$/ %>
-deb https://deb.packager.io/gh/zammad/zammad xenial <%= @zammad_branch %>
+deb https://deb.packager.io/gh/zammad/zammad xenial <%= scope['zammad::params::zammad_branch'] %>
 <% end %>
