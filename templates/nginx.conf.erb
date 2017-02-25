@@ -14,7 +14,7 @@ server {
     listen 80;
 
     # replace 'localhost' with your fqdn if you want to use zammad from remote
-    server_name <% @zammad_domain -%>;
+    server_name <%= scope['zammad::params::zammad_domain'] %>;
 
     root /opt/zammad/public;
 
