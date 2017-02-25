@@ -41,5 +41,6 @@
     }
   ],
   "dependencies": [
+    {"name":"elastic/elasticsearch","version_requirement":">= 5.0.0"}
   ]
 }
