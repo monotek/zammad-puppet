@@ -23,13 +23,25 @@ class zammad::install {
   exec {
     'repo-key-install':
       path        => '/usr/bin/:/bin/:sbin/',
+      require     => File[ $::repo_file ],
       refreshonly => true,
+      subscribe   => File[ $::repo_file ],
       command     => $::repo_key_command;
     'es-plugin-install':
       path    => '/usr/bin/:/bin/:sbin/',
       require => Package[ $::package_elasticsearch ],
       creates => '/usr/share/elasticsearch/plugins/mapper-attachments',
       command => $::es_plugin_install_command;
+    'es-config-command'
+      path    => '/usr/bin/:/bin/:sbin/',
+      require => Service[ $::service_zammad ],
+      notify  => Exec[ 'es_index_create_command' ],
+      command => $::es_config_command;
+    'es_index_create_command'
+      path        => '/usr/bin/:/bin/:sbin/',
+      require     => Exec[ 'es-config-command' ],
+      refreshonly => true,
+      command     => $::es_index_create_command;
   }
 
   package {
@@ -41,8 +53,8 @@ class zammad::install {
       ensure  => $::package_ensure;
     'zammad':
       ensure  => $::package_ensure,
-      require => [ Exec['repo-key-install'], Package[ $::package_database, $::package_webserver, $::package_elasticsearch ]
-      ];
+      notify  => Exec[ 'es-config-command' ],
+      require => [ File[ $::repo_file ], Service[ $::service_database, $::service_elasticsearch, $::service_webserver ] ];
   }
 
   service {

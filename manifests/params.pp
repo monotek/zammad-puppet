@@ -1,11 +1,14 @@
 # Class: zammad::params
 class zammad::params (
-  $branch                    = 'stable',
+  $zammad_domain             = 'localhost',
+  $zammad_branch             = 'stable',
   $package_ensure            = 'installed',
   $service_ensure            = 'running',
   $service_zammad            = 'zammad',
-  $zammad_domain             = 'localhost',
+  $es_url                    = 'http://127.0.0.1:9200',
   $es_plugin_install_command = '/usr/share/elasticsearch/bin/elasticsearch-plugin install mapper-attachments',
+  $es_config_command         = "zammad run rails r \"Setting.set('es_url', ${es_url})\"",
+  $es_index_create_command   = 'zammad run rake searchindex:rebuild',
   case $::operatingsystem {
     /^(CentOS|RedHat)$/: {
       $repo_key_command      = 'rpm --import https://rpm.packager.io/key'
@@ -26,7 +29,7 @@ class zammad::params (
       }
     }
     /^(Debian|Ubuntu)$/: {
-      $repo_key_command      = 'wget -qO - https://deb.packager.io/key | apt-key add -'
+      $repo_key_command      = 'wget -qO - https://deb.packager.io/key | apt-key add -;apt update'
       $repo_file             = '/etc/apt/sources.list.d/zammad.list'
       $package_database      = 'postgresql',
       $package_webserver     = 'nginx',
