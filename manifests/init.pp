@@ -17,7 +17,7 @@ class zammad (
   $es_plugin_install_command = $::zammad::params::es_plugin_install_command,
   $es_config_command         = $::zammad::params::es_config_command,
   $es_index_create_command   = $::zammad::params::es_index_create_command,
-) inhertis zammad::params {
+) inherits zammad::params {
 
   include zammad::install
 
