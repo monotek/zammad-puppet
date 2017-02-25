@@ -61,10 +61,10 @@ class zammad::install {
       ensure  => running,
       require => Package[ $::package_database ];
     $::service_elasticsearch:
-      ensure  => running;
+      ensure  => running,
       require => Exec['es-plugin-install'];
     $::service_webserver:
-      ensure  => running;
+      ensure  => running,
       require => File[ $::webserver_config ];
     $::service_zammad:
       ensure  => running,
