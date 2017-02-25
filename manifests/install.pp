@@ -50,10 +50,12 @@ class zammad::install {
       ensure  => $::zammad::params::package_ensure;
     $::zammad::params::package_elasticsearch:
       ensure  => $::zammad::params::package_ensure;
-    'zammad':
+    $::zammad::params::package_zammad::
       ensure  => $::zammad::params::package_ensure,
       notify  => Exec[ 'es-config-command' ],
-      require => [ Exec[ 'repo-key-install' ], Package[ $::zammad::params::service_database, $::zammad::params::service_elasticsearch, $::zammad::params::service_webserver ] ];
+      require => [ Exec[ 'repo-key-install' ],Package[ $::zammad::params::service_database,
+                                                        $::zammad::params::service_elasticsearch,
+                                                        $::zammad::params::service_webserver ]];
   }
 
   service {
@@ -68,7 +70,10 @@ class zammad::install {
       require => File[ $::zammad::params::webserver_config ];
     $::zammad::params::service_zammad:
       ensure  => running,
-      require => Package[ $::zammad::params::package_zammad, $::zammad::params::package_database, $::zammad::params::package_elasticsearch, $::zammad::params::package_webserver ];
+      require => Package[ $::zammad::params::package_database,
+                          $::zammad::params::package_elasticsearch,
+                          $::zammad::params::package_webserver,
+                          $::zammad::params::package_zammad ];
   }
 
 }
