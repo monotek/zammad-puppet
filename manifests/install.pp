@@ -21,12 +21,6 @@ class zammad::install {
   }
 
   exec {
-    'repo-key-install':
-      path        => '/usr/bin/:/bin/:sbin/',
-      require     => File[ $::repo_file ],
-      refreshonly => true,
-      subscribe   => File[ $::repo_file ],
-      command     => $::repo_key_command;
     'es-plugin-install':
       path    => '/usr/bin/:/bin/:sbin/',
       require => Package[ $::package_elasticsearch ],
@@ -42,6 +36,11 @@ class zammad::install {
       require     => Exec[ 'es-config-command' ],
       refreshonly => true,
       command     => $::es_index_create_command;
+    'repo-key-install':
+      path        => '/usr/bin/:/bin/:sbin/',
+      require     => File[ $::repo_file ],
+      refreshonly => true,
+      command     => $::repo_key_command;
   }
 
   package {
@@ -54,7 +53,7 @@ class zammad::install {
     'zammad':
       ensure  => $::package_ensure,
       notify  => Exec[ 'es-config-command' ],
-      require => [ File[ $::repo_file ], Service[ $::service_database, $::service_elasticsearch, $::service_webserver ] ];
+      require => [ Exec[ 'repo-key-install' ], Service[ $::service_database, $::service_elasticsearch, $::service_webserver ] ];
   }
 
   service {
