@@ -28,7 +28,7 @@ class zammad::install {
       command => $::zammad::params::es_plugin_install_command;
     'es-config-command':
       path    => '/usr/bin/:/bin/:sbin/',
-      require => Service[ $::zammad::params::service_zammad ],
+      require => Package[ $::zammad::params::package_zammad ],
       notify  => Exec[ 'es-index-create-command' ],
       command => $::zammad::params::es_config_command;
     'es-index-create-command':
