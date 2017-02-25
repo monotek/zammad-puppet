@@ -45,11 +45,11 @@ class zammad::install {
 
   package {
     $::zammad::params::package_database:
-      ensure  => $::zammad::params::package_ensure,
+      ensure  => $::zammad::params::package_ensure;
     $::zammad::params::package_elasticsearch:
-      ensure  => $::zammad::params::package_ensure,
+      ensure  => $::zammad::params::package_ensure;
     $::zammad::params::package_webserver:
-      ensure  => $::zammad::params::package_ensure,
+      ensure  => $::zammad::params::package_ensure;
     $::zammad::params::package_zammad:
       ensure  => $::zammad::params::package_ensure,
       notify  => Exec[ 'es-config-command' ],
