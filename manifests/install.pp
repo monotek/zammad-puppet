@@ -1,12 +1,6 @@
 # class zammad::install
 class zammad::install {
 
-  class { 'elasticsearch':
-    java_install => true,
-    manage_repo  => true,
-    repo_version => '5.x',
-  }
-
   file {
     $::zammad::params::repo_file:
       ensure  => file,
@@ -59,7 +53,7 @@ class zammad::install {
     'zammad':
       ensure  => $::zammad::params::package_ensure,
       notify  => Exec[ 'es-config-command' ],
-      require => [ Exec[ 'repo-key-install' ], Service[ $::zammad::params::service_database, $::zammad::params::service_elasticsearch, $::zammad::params::service_webserver ] ];
+      require => [ Exec[ 'repo-key-install' ], Package[ $::zammad::params::service_database, $::zammad::params::service_elasticsearch, $::zammad::params::service_webserver ] ];
   }
 
   service {
