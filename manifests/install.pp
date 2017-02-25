@@ -9,7 +9,7 @@ class zammad::install inherits zammad::params {
       owner   => 'root',
       group   => 'root',
       notify  => Exec['repo-key-install'],
-      content => template($::repo_template);
+      content => template($::zammad::params::repo_template);
     $::zammad::params::webserver_config:
       ensure  => file,
       require => Package[ $::zammad::params::package_webserver ],
