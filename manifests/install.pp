@@ -8,7 +8,7 @@ class zammad::install {
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
-      notify  => Exec['repo-key-install']
+      notify  => Exec['repo-key-install'],
       content => template('zammad/repo.erb');
     $::webserver_config:
       ensure  => file,
