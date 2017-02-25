@@ -26,12 +26,12 @@ class zammad::install {
       require => Package[ $::package_elasticsearch ],
       creates => '/usr/share/elasticsearch/plugins/mapper-attachments',
       command => $::es_plugin_install_command;
-    'es-config-command'
+    'es-config-command':
       path    => '/usr/bin/:/bin/:sbin/',
       require => Service[ $::service_zammad ],
       notify  => Exec[ 'es_index_create_command' ],
       command => $::es_config_command;
-    'es-index-create-command'
+    'es-index-create-command':
       path        => '/usr/bin/:/bin/:sbin/',
       require     => Exec[ 'es-config-command' ],
       refreshonly => true,
