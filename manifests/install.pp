@@ -68,12 +68,12 @@ class zammad::install {
     $::zammad::params::service_webserver:
       ensure  => running,
       require => File[ $::zammad::params::webserver_config ];
-    $::zammad::params::service_zammad:
-      ensure  => running,
-      require => Package[ $::zammad::params::package_database,
-                          $::zammad::params::package_elasticsearch,
-                          $::zammad::params::package_webserver,
-                          $::zammad::params::package_zammad ];
+#    $::zammad::params::service_zammad:
+#      ensure  => running,
+#      require => Package[ $::zammad::params::package_database,
+#                          $::zammad::params::package_elasticsearch,
+#                          $::zammad::params::package_webserver,
+#                          $::zammad::params::package_zammad ];
   }
 
 }
