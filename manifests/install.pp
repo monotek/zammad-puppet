@@ -1,5 +1,5 @@
 # class zammad::install
-class zammad::install inherits zammad::params {
+class zammad::install {
 
   file {
     $::zammad::params::repo_file:
@@ -17,7 +17,7 @@ class zammad::install inherits zammad::params {
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
-      content => template("zammad/${::webserver_template}");
+      content => template("zammad/${::zammad::params::webserver_template}");
   }
 
   exec {
