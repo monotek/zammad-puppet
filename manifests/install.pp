@@ -1,6 +1,12 @@
 # class zammad::install
 class zammad::install {
 
+  class { 'elasticsearch':
+    java_install => true,
+    manage_repo  => true,
+    repo_version => '5.x',
+  }
+
   file {
     $::zammad::params::repo_file:
       ensure  => file,

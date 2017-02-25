@@ -17,7 +17,7 @@ class zammad::params {
       $package_database      = 'postgresql-server'
       $package_webserver     = 'nginx'
       $package_elasticsearch = 'elasticsearch'
-      $service_database      = 'postgresql-server'
+      $service_database      = 'postgresql'
       $service_webserver     = 'nginx'
       $service_elasticsearch = 'elasticsearch'
       if $package_webserver == 'nginx' {
