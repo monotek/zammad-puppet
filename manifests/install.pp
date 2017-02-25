@@ -45,13 +45,17 @@ class zammad::install {
 
   package {
     $::zammad::params::package_database:
-      ensure  => $::zammad::params::package_ensure;
-    $::zammad::params::package_webserver:
-      ensure  => $::zammad::params::package_ensure;
+      ensure => $::zammad::params::package_ensure,
+      name   => $::zammad::params::package_database;
     $::zammad::params::package_elasticsearch:
-      ensure  => $::zammad::params::package_ensure;
+      ensure => $::zammad::params::package_ensure,
+      name   => $::zammad::params::package_elasticsearch;
+    $::zammad::params::package_webserver:
+      ensure => $::zammad::params::package_ensure,
+      name   => $::zammad::params::package_webserver;
     $::zammad::params::package_zammad:
       ensure  => $::zammad::params::package_ensure,
+      name    => $::zammad::params::package_zammad,
       notify  => Exec[ 'es-config-command' ],
       require => [ Exec[ 'repo-key-install' ],Package[ $::zammad::params::service_database,
                                                         $::zammad::params::service_elasticsearch,
