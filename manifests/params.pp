@@ -36,9 +36,9 @@ class zammad::params {
       }
     }
     /^(Debian|Ubuntu)$/: {
-      $es_repo_key_command     = 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -;apt-get update'
+      $es_repo_key_command     = 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -;apt-get -qq update 2> /dev/null'
       $es_repo_file            = '/etc/apt/sources.list.d/elasticsearch.list'
-      $zammad_repo_key_command = 'wget -qO - https://deb.packager.io/key | apt-key add -;apt-get update'
+      $zammad_repo_key_command = 'wget -qO - https://deb.packager.io/key | apt-key add -;apt-get -qq update 2> /dev/null'
       $zammad_repo_file        = '/etc/apt/sources.list.d/zammad.list'
       $package_database        = 'postgresql'
       $package_elasticsearch   = 'elasticsearch'
