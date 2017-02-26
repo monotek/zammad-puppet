@@ -7,6 +7,6 @@ Puppet module for Zammad ticket system
 ```
  class { 'zammad':
     zammad_domain => 'zammad.example.com',
-    es_url        => 'http://127.0.0.1:9200'
+    es_url        => 'http://127.0.0.1:9200',
  }
 ```
