@@ -81,9 +81,10 @@ class zammad::install {
 
   if $::zammad::params::package_manage_zammad == true {
     package { $::zammad::params::package_zammad:
-      ensure  => 'installed',
-      notify  => Exec[ 'es-config-command' ],
-      require => [ Exec[ 'zammad-repo-key-install' ], Package[ $::zammad::params::package_database, $::zammad::params::package_elasticsearch, $::zammad::params::package_webserver ] ];
+      ensure          => 'installed',
+      install_options => [ '--allow-unauthenticated', '-f' ],
+      notify          => Exec[ 'es-config-command' ],
+      require         => [ Exec[ 'zammad-repo-key-install' ], Package[ $::zammad::params::package_database, $::zammad::params::package_elasticsearch, $::zammad::params::package_webserver ] ];
     }
     service {
       $::zammad::params::service_elasticsearch:
