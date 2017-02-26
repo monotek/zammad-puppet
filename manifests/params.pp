@@ -10,7 +10,7 @@ class zammad::params {
   $package_zammad               = 'zammad'
   $es_url                       = 'http://127.0.0.1:9200'
   $es_plugin_install_command    = '/usr/share/elasticsearch/bin/elasticsearch-plugin install mapper-attachments'
-  $es_config_command            = "zammad run rails r \"Setting.set('es_url', \"${es_url})\"\""
+  $es_config_command            = "zammad run rails r \"Setting.set('es_url', '${es_url}')\""
   $es_index_create_command      = 'zammad run rake searchindex:rebuild'
   $es_version                   = '5.x'
   $es_repo_template             = 'es_repo.erb'
