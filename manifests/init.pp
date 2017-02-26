@@ -9,7 +9,6 @@ class zammad (
   $package_elasticsearch     = $::zammad::params::package_elasticsearch,
   $package_webserver         = $::zammad::params::package_webserver,
   $package_zammad            = $::zammad::params::package_zammad,
-  $service_ensure            = $::zammad::params::service_ensure,
   $service_database          = $::zammad::params::service_database,
   $service_elasticsearch     = $::zammad::params::service_elasticsearch,
   $service_webserver         = $::zammad::params::service_webserver,
@@ -22,6 +21,7 @@ class zammad (
   $es_version                = $::zammad::params::es_version,
   $es_repo_key_command       = $::zammad::params::es_repo_key_command,
   $es_repo_file              = $::zammad::params::es_repo_file,
+  $es_repo_template          = $::zammad::params::es_repo_template,
 ) inherits zammad::params {
 
   include zammad::install

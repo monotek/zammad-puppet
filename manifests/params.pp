@@ -13,6 +13,7 @@ class zammad::params {
   $es_config_command            = "zammad run rails r \"Setting.set('es_url', ${es_url})\""
   $es_index_create_command      = 'zammad run rake searchindex:rebuild'
   $es_version                   = '5.x'
+  $es_repo_template             = 'es_repo.erb'
   case $::operatingsystem {
     /^(CentOS|RedHat)$/: {
       $es_repo_key_command     = 'rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch'

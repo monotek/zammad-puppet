@@ -87,7 +87,7 @@ class zammad::install {
     service {
       $::zammad::params::service_elasticsearch:
         ensure  => running,
-        require => Exec['es-plugin-install'];
+        require => Exec[ 'es-plugin-install' ];
       $::zammad::params::service_webserver:
         ensure  => running,
         require => File[ $::zammad::params::webserver_config ];
