@@ -5,6 +5,7 @@ class zammad (
   $zammad_repo_file          = $::zammad::params::zammad_repo_file,
   $zammad_repo_key_command   = $::zammad::params::zammad_repo_key_command,
   $zammad_repo_template      = $::zammad::params::zammad_repo_template,
+  $zammad_install_options    = $::zammad::params::zammad_install_options,
   $package_database          = $::zammad::params::package_database,
   $package_elasticsearch     = $::zammad::params::package_elasticsearch,
   $package_webserver         = $::zammad::params::package_webserver,
