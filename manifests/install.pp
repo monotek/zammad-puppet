@@ -25,6 +25,7 @@ class zammad::install {
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
+      notify  => $::zammad::params::webserver_service,
       content => template("zammad/${::zammad::params::webserver_template}");
   }
 
