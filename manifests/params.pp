@@ -16,7 +16,7 @@ class zammad::params {
   $es_repo_template             = 'es_repo.erb'
   case $::operatingsystem {
     /^(CentOS|RedHat)$/: {
-      $es_repo_key_command     = 'rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+      $es_repo_key_command     = 'yum install -y epel-release;rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch'
       $es_repo_file            = '/etc/yum.repos.d/elasticsearch.repo'
       $zammad_repo_key_command = 'rpm --import https://rpm.packager.io/key'
       $zammad_repo_file        = '/etc/yum.repos.d/zammad.repo'
