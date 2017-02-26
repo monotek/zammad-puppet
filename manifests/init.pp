@@ -2,9 +2,9 @@
 class zammad (
   $zammad_branch             = $::zammad::params::zammad_branch,
   $zammad_domain             = $::zammad::params::zammad_domain,
-  $zammad_repo_file          = $::zammad::params::repo_file,
-  $zammad_repo_key_command   = $::zammad::params::repo_key_command,
-  $zammad_repo_template      = $::zammad::params::repo_template,
+  $zammad_repo_file          = $::zammad::params::zammad_repo_file,
+  $zammad_repo_key_command   = $::zammad::params::zammad_repo_key_command,
+  $zammad_repo_template      = $::zammad::params::zammad_repo_template,
   $package_database          = $::zammad::params::package_database,
   $package_elasticsearch     = $::zammad::params::package_elasticsearch,
   $package_webserver         = $::zammad::params::package_webserver,
