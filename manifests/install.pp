@@ -35,11 +35,12 @@ class zammad::install {
       refreshonly => true,
       command     => $::zammad::params::es_repo_key_command;
     'es-plugin-install':
-      path    => '/usr/bin/:/bin/:sbin/',
-      require => Package[ $::zammad::params::package_elasticsearch ],
-      creates => '/usr/share/elasticsearch/plugins/mapper-attachments',
-      notify  => Service[ $::zammad::params::service_elasticsearch ],
-      command => $::zammad::params::es_plugin_install_command;
+      path        => '/usr/bin/:/bin/:sbin/',
+      require     => Package[ $::zammad::params::package_elasticsearch ],
+      creates     => '/usr/share/elasticsearch/plugins/mapper-attachments',
+      notify      => Service[ $::zammad::params::service_elasticsearch ],
+      refreshonly => true,
+      command     => $::zammad::params::es_plugin_install_command;
     'es-config-command':
       path        => '/usr/bin/:/bin/:sbin/',
       require     => Package[ $::zammad::params::package_zammad ],
