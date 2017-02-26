@@ -6,7 +6,7 @@
 
 <VirtualHost *:80>
     # replace 'localhost' with your fqdn if you want to use zammad from remote
-    ServerName <%= scope['zammad::params::zammad_domain'] %>
+    ServerName <%= scope['zammad::zammad_domain'] %>
 
     ## don't loose time with IP address lookups
     HostnameLookups Off
