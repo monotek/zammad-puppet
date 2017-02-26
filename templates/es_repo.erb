@@ -1,19 +1,19 @@
 # elasticsearch repo file managed by puppet
 # do not change
 <% if @operatingsystem =~ /^(CentOS|RedHat)$/ %>
-[elasticsearch-<%= scope['zammad::params::elasticsearch_version'] %>]
-name=Elasticsearch repository for <%= scope['zammad::params::elasticsearch_version'] %> packages
-baseurl=https://artifacts.elastic.co/packages/<%= scope['zammad::params::elasticsearch_version'] %>/yum
+[elasticsearch-<%= scope['zammad::params::es_version'] %>]
+name=Elasticsearch repository for <%= scope['zammad::params::es_version'] %> packages
+baseurl=https://artifacts.elastic.co/packages/<%= scope['zammad::params::es_version'] %>/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
 autorefresh=1
 type=rpm-md
 <% elsif @operatingsystem =~ /^(Debian|Ubuntu)$/ %>
-deb https://artifacts.elastic.co/packages/<%= scope['zammad::params::elasticsearch_version'] %>/apt stable main
+deb https://artifacts.elastic.co/packages/<%= scope['zammad::params::es_version'] %>/apt stable main
 <% elsif @operatingsystem =~ /^(SLES|SUSE)$/ %>
 [elasticsearch]
-name=Repository for elasticsearch <%= scope['zammad::params::elasticsearch_version'] %>
-baseurl=https://artifacts.elastic.co/packages/<%= scope['zammad::params::elasticsearch_version'] %>/yum
+name=Repository for elasticsearch <%= scope['zammad::params::es_version'] %>
+baseurl=https://artifacts.elastic.co/packages/<%= scope['zammad::params::es_version'] %>/yum
 enabled=1
 <% end %>
