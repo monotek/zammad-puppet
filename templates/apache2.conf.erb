@@ -6,7 +6,7 @@
 
 <VirtualHost *:80>
     # replace 'localhost' with your fqdn if you want to use zammad from remote
-    ServerName <%= scope['zammad::zammad_domain'] %>
+    ServerName <%= @zammad_domain %>
 
     ## don't loose time with IP address lookups
     HostnameLookups Off
@@ -20,26 +20,26 @@
     ProxyRequests Off
     ProxyPreserveHost On
 
-    <Proxy localhost:3000>
-	     Require local
+    <Proxy localhost:<%= @zammad_rails_port %>>
+	    Require local
     </Proxy>
 
     ProxyPass /assets !
     ProxyPass /favicon.ico !
     ProxyPass /robots.txt !
-    ProxyPass /ws ws://localhost:6042/
-    ProxyPass / http://localhost:3000/
+    ProxyPass /ws ws://localhost:<%= @zammad_websocket_port %>/
+    ProxyPass / http://localhost:<%= @zammad_rails_port %>/
 
-    DocumentRoot "/opt/zammad/public"
+    DocumentRoot "<%= @zammad_home_directory %>/public"
 
     <Directory />
-        Options FollowSymLinks
-        AllowOverride None
+      Options FollowSymLinks
+      AllowOverride None
     </Directory>
 
-    <Directory "/opt/zammad/public">
-        Options FollowSymLinks
-	Require all granted
+    <Directory "<%= @zammad_home_directory %>/public">
+      Options FollowSymLinks
+	    Require all granted
     </Directory>
 
 </VirtualHost>

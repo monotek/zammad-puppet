@@ -1,25 +1,31 @@
 # Class: zammad::params
 class zammad::params {
-  $zammad_domain                = 'localhost'
   $zammad_branch                = 'stable'
   $zammad_repo_template         = 'zammad_repo.erb'
+  $zammad_default_domain        = 'localhost'
+  $zammad_default_home_directory = '/opt/zammad'
+  $zammad_default_rails_port     = 3000
+  $zammad_default_websocket_port = 6042
+  $zammad_default_user          = 'zammad'
+  $zammad_git_repo              = 'https://github.com/zammad/zammad.git'
+  $zammad_max_instances         = 1000
   $package_manage_database      = true
   $package_manage_elasticsearch = true
   $package_manage_webserver     = true
   $package_manage_zammad        = true
   $package_zammad               = 'zammad'
-  $es_url                       = 'http://127.0.0.1:9200'
+  $es_url                       = 'http://127.0.0.1'
+  $es_port                      = 9200
   $es_plugin_install_command    = '/usr/share/elasticsearch/bin/elasticsearch-plugin install mapper-attachments'
-  $es_config_command            = "zammad run rails r \"Setting.set('es_url', '${es_url}')\""
+  $es_url_config_command        = "zammad run rails r \"Setting.set('es_url', '${es_url}:${es_port}')\""
   $es_index_create_command      = 'zammad run rake searchindex:rebuild'
   $es_version                   = '5.x'
   $es_repo_template             = 'es_repo.erb'
+  $rmv_install_command          = "curl -sSL https://get.rvm.io | bash -s stable"
   case $::operatingsystem {
     /^(CentOS|RedHat)$/: {
       $es_repo_key_command     = 'yum install -y epel-release;rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch'
       $es_repo_file            = '/etc/yum.repos.d/elasticsearch.repo'
-      $zammad_repo_key_command = 'yum install -y java-1.8.0-openjdk-headless;rpm --import https://rpm.packager.io/key'
-      $zammad_repo_file        = '/etc/yum.repos.d/zammad.repo'
       $zammad_install_options  = undef
       $package_database        = 'postgresql-server'
       $package_elasticsearch   = 'elasticsearch'
@@ -35,13 +41,10 @@ class zammad::params {
         $webserver_config   = '/etc/httpd/conf.d/zammad.conf'
         $webserver_template = 'apache2.conf.erb'
       }
-
     }
     /^(Debian|Ubuntu)$/: {
       $es_repo_key_command     = 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -;apt-get -qq update 2> /dev/null'
       $es_repo_file            = '/etc/apt/sources.list.d/elasticsearch.list'
-      $zammad_repo_key_command = 'wget -qO - https://deb.packager.io/key | apt-key add -;apt-get -qq update 2> /dev/null'
-      $zammad_repo_file        = '/etc/apt/sources.list.d/zammad.list'
       $zammad_install_options  = [ '--allow-unauthenticated', '-f' ]
       $package_database        = 'postgresql'
       $package_elasticsearch   = 'elasticsearch'
@@ -54,15 +57,15 @@ class zammad::params {
         $webserver_template = 'nginx.conf.erb'
       }
       elsif $package_webserver == 'apache2' {
-        $webserver_config   = '/etc/apache2/sites-enabled/zammad.conf'
+        $webserver_config   = '/etc/apache2/sites-enabled/zammad.conf'      $zammad_repo_key_command = 'rpm --import https://rpm.packager.io/key'
+      $zammad_repo_file        = '/etc/zypp/repos.d/zammad'
+
         $webserver_template = 'apache2.conf.erb'
       }
     }
     /^(SLES|SUSE)$/: {
       $es_repo_key_command     = 'rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch'
       $es_repo_file            = '/etc/zypp/repos.d/elasticsearch'
-      $zammad_repo_key_command = 'rpm --import https://rpm.packager.io/key'
-      $zammad_repo_file        = '/etc/zypp/repos.d/zammad'
       $zammad_install_options  = undef
       $package_database        = 'postgresql-server'
       $package_elasticsearch   = 'elasticsearch'

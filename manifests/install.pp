@@ -1,105 +1,83 @@
 # class zammad::install
 class zammad::install {
 
+  package { 'curl':
+    ensure => installed;
+  }
+
   file {
-    $::zammad::params::es_repo_file:
+    $::zammad::es_repo_file:
       ensure  => file,
-      path    => $::zammad::params::es_repo_file,
+      path    => $::zammad::es_repo_file,
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
       notify  => Exec['es-repo-key-install'],
-      content => template("zammad/${::zammad::params::es_repo_template}");
-    $::zammad::params::zammad_repo_file:
+      content => template("zammad/${::zammad::es_repo_template}");
+    $::zammad::webserver_config:
       ensure  => file,
-      path    => $::zammad::params::zammad_repo_file,
+      require => Package[ $::zammad::package_webserver ],
+      path    => $::zammad::webserver_config,
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
-      notify  => Exec['zammad-repo-key-install'],
-      content => template("zammad/${::zammad::params::zammad_repo_template}");
-    $::zammad::params::webserver_config:
-      ensure  => file,
-      require => Package[ $::zammad::params::package_webserver ],
-      path    => $::zammad::params::webserver_config,
-      mode    => '0644',
-      owner   => 'root',
-      group   => 'root',
-      notify  => Service[ $::zammad::params::webserver_service ],
-      content => template("zammad/${::zammad::params::webserver_template}");
+      notify  => Service[ $::zammad::webserver_service ],
+      content => template("zammad/${::zammad::webserver_template}");
   }
 
   exec {
     'es-repo-key-install':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => File[ $::zammad::params::es_repo_file ],
+      require     => File[ $::zammad::es_repo_file ],
       refreshonly => true,
-      command     => $::zammad::params::es_repo_key_command;
+      command     => $::zammad::es_repo_key_command;
     'es-plugin-install':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => Package[ $::zammad::params::package_elasticsearch ],
+      require     => Package[ $::zammad::package_elasticsearch ],
       creates     => '/usr/share/elasticsearch/plugins/mapper-attachments',
-      notify      => Service[ $::zammad::params::service_elasticsearch ],
+      notify      => Service[ $::zammad::service_elasticsearch ],
       refreshonly => true,
-      command     => $::zammad::params::es_plugin_install_command;
-    'es-config-command':
+      command     => $::zammad::es_plugin_install_command;
+    'es-url-config-command':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => Package[ $::zammad::params::package_zammad ],
+      require     => Package[ $::zammad::package_zammad ],
       notify      => Exec[ 'es-index-create-command' ],
       refreshonly => true,
-      command     => $::zammad::params::es_config_command;
+      command     => $::zammad::es_url_config_command;
+    'es-index-config-command':
+      path        => '/usr/bin/:/bin/:sbin/',
+      require     => [ Package[ $::zammad::package_zammad ], Exec['es-url-config-command'] ],
+      notify      => Exec[ 'es-index-create-command' ],
+      refreshonly => true,
+      command     => "zammad run rails r \"Setting.set('es_index', Socket.gethostname + '_${zammad_user}')\"";
     'es-index-create-command':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => [ Exec[ 'es-config-command' ], Service[ $::zammad::params::service_elasticsearch ] ],
+      require     => [ Exec[ 'es-config-command' ], Service[ $::zammad::service_elasticsearch ] ],
       refreshonly => true,
-      command     => $::zammad::params::es_index_create_command;
-    'zammad-repo-key-install':
+      command     => $::zammad::es_index_create_command;
+    'rmv-install':
       path        => '/usr/bin/:/bin/:sbin/',
-      require     => File[ $::zammad::params::zammad_repo_file ],
+      require     => Package['curl'],
       refreshonly => true,
-      command     => $::zammad::params::zammad_repo_key_command;
+      command     => $::zammad::rvm_install_command;
   }
 
-  if $::zammad::params::package_manage_database == true {
-    package { $::zammad::params::package_database:
+  if $::zammad::package_manage_database == true {
+    package { $::zammad::package_database:
       ensure  => 'installed';
     }
   }
 
-  if $::zammad::params::package_manage_elasticsearch == true {
-    package { $::zammad::params::package_elasticsearch:
+  if $::zammad::package_manage_elasticsearch == true {
+    package { $::zammad::package_elasticsearch:
       ensure  => 'installed',
       require => Exec[ 'es-repo-key-install' ];
     }
   }
 
-  if $::zammad::params::package_manage_webserver == true {
-    package { $::zammad::params::package_webserver:
+  if $::zammad::package_manage_webserver == true {
+    package { $::zammad::package_webs::paramserver:
       ensure  => 'installed';
-    }
-  }
-
-  if $::zammad::params::package_manage_zammad == true {
-    package { $::zammad::params::package_zammad:
-      ensure          => 'installed',
-      install_options => $::zammad::params::zammad_install_options,
-      notify          => [ Exec[ 'es-config-command' ], File[ $::zammad::params::webserver_config ] ],
-      require         => [ Exec[ 'zammad-repo-key-install' ], Package[ $::zammad::params::package_database, $::zammad::params::package_elasticsearch, $::zammad::params::package_webserver ] ];
-    }
-    service {
-      $::zammad::params::service_elasticsearch:
-        ensure  => running,
-        require => Exec[ 'es-plugin-install' ];
-      $::zammad::params::service_webserver:
-        ensure  => running;
-    }
-  }
-  else {
-    package { $::zammad::params::package_zammad:
-      ensure  => 'absent';
-    }
-    service { $::zammad::params::service_zammad:
-      ensure  => stopped;
     }
   }
 
